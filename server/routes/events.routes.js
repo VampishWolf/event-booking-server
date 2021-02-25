@@ -1,21 +1,26 @@
 module.exports = (app) => {
-    const events = require('../controllers/events.controller');
+    const controller = require('../controllers/events.controller');
 
-    app.get('/', events.main);
+    app.get('/', controller.main);
 
-    app.post('/api/events', events.createEvent);
-
-    // app.post('/api/booking', events.createBooking);
+    // Retrieve all genres
+    app.get('/api/genres', controller.getGenres);
+    
+    // Create an event
+    app.post('/api/events', controller.createEvent);
+    
+    // Create an booking
+    app.post('/api/booking', controller.createBooking);
     
     // Retrieve all events
-    app.get('/api/events', events.findAllEvents);
+    app.get('/api/events', controller.findAllEvents);
 
-    // Retrieve a single Note with noteId
-    app.get('/api/events/:eventId', events.findOne);
+    // Retrieve a single event with genre
+    app.get('/api/events/:genre', controller.findOne);
 
     // Update a Note with noteId
-    app.put('/api/events/:eventId', events.update);
+    app.put('/api/events/:eventId', controller.update);
 
     // Delete a Note with noteId
-    app.delete('/api/events/:eventId', events.delete);
+    app.delete('/api/events/:eventId', controller.delete);
 }

@@ -5,20 +5,14 @@ const EventSchema = new Schema({
     eventId: String,  
     title: String,
     description: String,
-    category: String,
+    genre: String,
     seats: Number,
-    isAvailable: Boolean
-}, {
-    timestamps: true
-});
-
-const BookingSchema = new Schema({  
-    bookingId: String,  
-    userName: String,
-    emailId: String,
-    eventId: String,
-    seats: Array,
-    isAvailable: Boolean
+    isAvailable: Boolean,
+    eventimg:
+    {
+        data: Buffer,
+        contentType: String
+    }
 }, {
     timestamps: true
 });

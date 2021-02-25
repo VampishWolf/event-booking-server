@@ -1,9 +1,12 @@
 const app = require('express')();
 const http = require('http').Server(app);
-const dbConfig = require('./config/db.config');
+const config = require('./config/events.config');
+const cors = require('cors');
 const io = require('socket.io')(http);
 const model = require('./models/events.model');
 require('./routes/events.routes.js')(app);
+
+app.use(cors())
 
 const mongoose = require("mongoose");
 const { countReset } = require('console');
@@ -11,7 +14,7 @@ const { countReset } = require('console');
 mongoose.Promise = global.Promise;
 
 mongoose
-.connect(dbConfig.url, { useNewUrlParser: true })
+.connect(config.dburl, { useNewUrlParser: true })
 // .then(() => {
 
 //         io.on('connection', (socket) => {
