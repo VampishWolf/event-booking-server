@@ -1,7 +1,10 @@
+const bodyParser = require("body-parser");
 const genres = require('../models/genres.model.js');
 const events = require('../models/events.model.js');
 const bookings = require('../models/bookings.model.js');
+const seats = require('../models/seats.model.js');
 const config = require('../config/events.config');
+
 
 exports.main = (req, res) => {
     res.send("Win")
@@ -9,7 +12,7 @@ exports.main = (req, res) => {
 
 // Create and Save a new event
 exports.createEvent = (req, res) => {
-    res.header("Access-Control-Allow-Origin", config.clienturl );
+    res.header("Access-Control-Allow-Origin", "*");
     if(!req.body.content) {
         return res.status(400).send({
             message: "Note content can not be empty"
@@ -83,7 +86,7 @@ exports.delete = (req, res) => {
 
 // -------------------------------------------------------------------------
 // Retrieve and return all the genres from the database.
-exports.getGenres = (req, res) => {
+exports.findGenres = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*" );
     genres.find()
     .then(genres => {
@@ -96,9 +99,22 @@ exports.getGenres = (req, res) => {
 };
 
 //---------------------------------------------------------------------------
-// Create and Save a new Booking
-exports.createBooking = (req, res) => {
+// Retrieve and return all the bookings from the database.
+exports.findBookings = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*" );
+    bookings.find()
+    .then(booking => {
+        res.send(booking);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving notes."
+        })
+    })
+};
+// Create and Save a new Booking
+exports.createBookings = (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*" );
+    console.log(req.body);
     if(!req.body.content) {
         return res.status(400).send({
             message: "Note content can not be empty"
@@ -113,12 +129,26 @@ exports.createBooking = (req, res) => {
     //     isAvailable: true
     // })
 
-    bookings.save()
-    .then(data => {
-        res.send(data);
+    req.body.save()
+    .then(() => {
+        res.send("Booked!");
     }).catch(err => {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the Event."
         })
     })
 };
+
+// -------------------------------------------------------
+exports.seatAvailability = (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*" );  
+    // seats.find({eventId: req.params.eventId}, {seatsBooked: 1, _id: 0})
+    seats.find({eventId: req.params.eventId}, {_id: 0})
+    .then(result => {
+        res.send(result);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while creating the Event."
+        })
+    })
+}

@@ -3,11 +3,11 @@ var Schema = mongoose.Schema;
 
 const BookingSchema = new Schema({  
     bookingId: String,  
-    userName: String,
+    name: String,
     emailId: String,
     eventId: String,
-    seats: Array,
-    isAvailable: Boolean
+    mobile: String,
+    seatsBooked: Array
 }, {
     timestamps: true
 });
