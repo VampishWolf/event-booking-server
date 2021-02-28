@@ -50,7 +50,7 @@ exports.findAllEvents = (req, res) => {
 };
 
 // Find a single note with a eventId
-// exports.findOne = (req, res) => {
+// exports.findOnee = (req, res) => {
 //     res.header("Access-Control-Allow-Origin", "*" );
 //     events.findById(req.params.eventId)
 //     .then(events => {
@@ -64,8 +64,21 @@ exports.findAllEvents = (req, res) => {
 
 exports.findOne = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*" );
-    events.find({genre: req.params.genre})
+    events.find({genre: req.params.genre}).sort({"title": 1})
     .then(events => {
+        events ? res.send(events) : null;
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving notes."
+        })
+    })
+};
+// Find one event
+exports.findEvent = (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*" );
+    events.findOne({_id:req.params.eventId})
+    .then(events => {
+        console.log(events);
         events ? res.send(events) : null;
     }).catch(err => {
         res.status(500).send({
@@ -88,7 +101,7 @@ exports.delete = (req, res) => {
 // Retrieve and return all the genres from the database.
 exports.findGenres = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*" );
-    genres.find()
+    genres.find().sort({"value": 1})
     .then(genres => {
         res.send(genres);
     }).catch(err => {

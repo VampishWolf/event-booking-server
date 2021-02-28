@@ -44,18 +44,18 @@ mongoose
     io.on('connection', (socket) => {
         console.log('a user connected');
         socket.emit('connection', null);
-        // socket.on('disconnect', () => {
-        //     console.log('user disconnected');
-        // });
-        // socket.on('subscribeToTimer', (interval) => {
-        //     console.log('client is subscribing to timer interval', interval);
-        //     setInterval(() => {
-        //         client.emit('timer', new Date());
-        //       }, interval);
-        // });
+        socket.on('disconnect', () => {
+            console.log('user disconnected');
+        });
+        socket.on('subscribeToTimer', (interval) => {
+            console.log('client is subscribing to timer interval', interval);
+            setInterval(() => {
+                client.emit('timer', new Date());
+              }, interval);
+        });
     });
 
-    http.listen(config.port, () => {
+    http.listen(process.env.PORT || config.port, () => {
         console.log('listening on *:' + config.port);
     });
 

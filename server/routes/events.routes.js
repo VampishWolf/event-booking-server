@@ -25,7 +25,9 @@ module.exports = (app) => {
     // Retrieve a single event with genre
     app.get('/api/events/:genre', controller.findOne);
     
-
+    // Retrieve a single event
+    app.get('/api/selectedEvent/:eventId', controller.findEvent);
+    
     // Update a Note with noteId
     app.put('/api/events/:eventId', controller.update);
 

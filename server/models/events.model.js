@@ -7,6 +7,7 @@ const EventSchema = new Schema({
     description: String,
     genre: String,
     seats: Number,
+    eimage: String,
     isAvailable: Boolean,
     eventimg:
     {
